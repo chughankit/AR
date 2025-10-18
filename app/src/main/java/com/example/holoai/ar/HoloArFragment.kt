@@ -11,11 +11,9 @@ import com.google.ar.sceneform.ux.ArFragment
  * ambient intensity mode.
  */
 class HoloArFragment : ArFragment() {
-    override fun getSessionConfiguration(session: Session): Config {
-        val config = super.getSessionConfiguration(session)
-        config.lightEstimationMode = Config.LightEstimationMode.AMBIENT_INTENSITY
-        session.configure(config)
-        return config
+    override fun onCreateSessionConfig(session: Session): Config {
+        return super.onCreateSessionConfig(session).apply {
+            lightEstimationMode = Config.LightEstimationMode.AMBIENT_INTENSITY
+        }
     }
 }
-
