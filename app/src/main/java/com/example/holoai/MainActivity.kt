@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.ar.sceneform.rendering.ModelRenderable
-import com.google.ar.sceneform.ux.ArFragment
 import com.example.holoai.ar.AvatarController
 import com.example.holoai.ar.HoloArFragment
 import com.example.holoai.voice.VoiceManager
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 // Extension helper to keep MainActivity clean
-private fun ArFragment.setOnTapPlaneGlb(
+private fun HoloArFragment.setOnTapPlaneGlb(
     glbAsset: String,
     onPlaced: (ModelRenderable, Anchor) -> Unit,
     onError: (String) -> Unit
