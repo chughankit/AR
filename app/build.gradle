@@ -54,12 +54,12 @@ dependencies {
     // ARCore
     implementation 'com.google.ar:core:1.44.0'
 
-    // Sceneform (community-maintained)
+    // Sceneform (community-maintained). Core + UX helpers
     implementation 'com.gorisse.thomas.sceneform:sceneform:1.23.0'
+    implementation 'com.gorisse.thomas.sceneform:sceneform-ux:1.23.0'
 
     // Testing (optional placeholders)
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
-

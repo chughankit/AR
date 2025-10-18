@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.gorisse.thomas.sceneform.rendering.ModelRenderable
-import com.gorisse.thomas.sceneform.ux.ArFragment
+import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.ux.ArFragment
 import com.example.holoai.ar.AvatarController
 import com.example.holoai.voice.VoiceManager
 import com.example.holoai.ai.LocalEchoAiService
+import com.google.ar.core.Anchor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -79,8 +80,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupTapToPlace() {
         arFragment.setOnTapPlaneGlb(
             glbAsset = "models/companion.glb",
-            onRenderableReady = { renderable ->
-                avatarController = AvatarController(arFragment, renderable).also {
+            onPlaced = { renderable, anchor ->
+                avatarController = AvatarController(arFragment, renderable).also { ctrl ->
+                    ctrl.placeAtAnchor(anchor)
                     status.text = "Companion placed. Say something!"
                 }
             },
@@ -108,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 // Extension helper to keep MainActivity clean
 private fun ArFragment.setOnTapPlaneGlb(
     glbAsset: String,
-    onRenderableReady: (ModelRenderable) -> Unit,
+    onPlaced: (ModelRenderable, Anchor) -> Unit,
     onError: (String) -> Unit
 ) {
     setOnTapArPlaneListener { hitResult, _, _ ->
@@ -116,8 +118,10 @@ private fun ArFragment.setOnTapPlaneGlb(
             .setSource(requireContext(), Uri.parse(glbAsset))
             .setIsFilamentGltf(true)
             .build()
-            .thenAccept { onRenderableReady(it) }
+            .thenAccept { renderable ->
+                val anchor = hitResult.createAnchor()
+                onPlaced(renderable, anchor)
+            }
             .exceptionally { onError(it.message ?: "Unknown error"); null }
     }
 }
-
