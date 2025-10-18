@@ -10,9 +10,13 @@ import android.speech.tts.TextToSpeech
 import java.util.Locale
 
 class VoiceManager(private val context: Context) {
-    private val tts: TextToSpeech = TextToSpeech(context) { status ->
-        if (status == TextToSpeech.SUCCESS) {
-            tts.language = Locale.getDefault()
+    private lateinit var tts: TextToSpeech
+
+    init {
+        tts = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                tts.language = Locale.getDefault()
+            }
         }
     }
 
@@ -56,5 +60,11 @@ class VoiceManager(private val context: Context) {
         }
         recognizer.startListening(intent)
     }
-}
 
+    fun shutdown() {
+        if (this::tts.isInitialized) {
+            tts.stop()
+            tts.shutdown()
+        }
+    }
+}

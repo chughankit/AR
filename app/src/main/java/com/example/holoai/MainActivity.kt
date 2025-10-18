@@ -15,6 +15,9 @@ import com.example.holoai.ar.AvatarController
 import com.example.holoai.voice.VoiceManager
 import com.example.holoai.ai.LocalEchoAiService
 import com.google.ar.core.Anchor
+import android.view.MotionEvent
+import com.google.ar.core.HitResult
+import com.google.ar.core.Plane
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -113,7 +116,7 @@ private fun ArFragment.setOnTapPlaneGlb(
     onPlaced: (ModelRenderable, Anchor) -> Unit,
     onError: (String) -> Unit
 ) {
-    setOnTapArPlaneListener { hitResult, _, _ ->
+    setOnTapArPlaneListener { hitResult: HitResult, _: Plane, _: MotionEvent ->
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse(glbAsset))
             .setIsFilamentGltf(true)
@@ -122,6 +125,6 @@ private fun ArFragment.setOnTapPlaneGlb(
                 val anchor = hitResult.createAnchor()
                 onPlaced(renderable, anchor)
             }
-            .exceptionally { onError(it.message ?: "Unknown error"); null }
+            .exceptionally { throwable: Throwable -> onError(throwable.message ?: "Unknown error"); null }
     }
 }
