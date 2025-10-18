@@ -51,8 +51,8 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
-    // ARCore
-    implementation 'com.google.ar:core:1.44.0'
+    // ARCore (keep aligned with Sceneform 1.23 until it supports the newer LightEstimate API)
+    implementation 'com.google.ar:core:1.31.0'
 
     // Sceneform (community-maintained). Core + UX helpers
     implementation 'com.gorisse.thomas.sceneform:sceneform:1.23.0'
