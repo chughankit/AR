@@ -1,5 +1,8 @@
 package com.example.holoai.ar
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.google.ar.core.Config
 import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
@@ -23,6 +26,16 @@ class HoloArFragment : ArFragment() {
     override fun onCreateSessionConfig(session: Session): Config {
         return super.onCreateSessionConfig(session).apply {
             lightEstimationMode = Config.LightEstimationMode.AMBIENT_INTENSITY
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: android.os.Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)?.also {
+            arSceneView.lightEstimationConfig = LightEstimationConfig.AMBIENT_INTENSITY
         }
     }
 }
