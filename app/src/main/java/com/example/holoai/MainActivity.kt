@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.example.holoai.ar.AvatarController
+import com.example.holoai.ar.HoloArFragment
 import com.example.holoai.voice.VoiceManager
 import com.example.holoai.ai.LocalEchoAiService
 import com.google.ar.core.Anchor
@@ -24,7 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var arFragment: ArFragment
+    private lateinit var arFragment: HoloArFragment
     private lateinit var status: TextView
     private lateinit var btnPlace: Button
     private lateinit var btnTalk: Button
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        arFragment = supportFragmentManager.findFragmentById(R.id.arFragment) as ArFragment
+        arFragment = supportFragmentManager.findFragmentById(R.id.arFragment) as HoloArFragment
         status = findViewById(R.id.txtStatus)
         btnPlace = findViewById(R.id.btnPlace)
         btnTalk = findViewById(R.id.btnTalk)
@@ -89,24 +90,29 @@ class MainActivity : AppCompatActivity() {
                     status.text = "Companion placed. Say something!"
                 }
             },
-            onError = { err -> status.text = "Model error: ${'$'}err" }
+            onError = { err -> status.text = "Model error: $err" }
         )
     }
 
     private fun startVoiceChat() {
-        status.text = "Listening…"
+        status.text = "Listening..."
         voice.listen(
             onResult = { text ->
-                status.text = "You: ${'$'}text\nThinking…"
+                status.text = "You: $text\nThinking..."
                 uiScope.launch {
                     val reply = ai.complete(text)
-                    status.text = "Companion: ${'$'}reply"
+                    status.text = "Companion: $reply"
                     voice.speak(reply)
                     avatarController?.emoteSpeaking()
                 }
             },
-            onError = { e -> status.text = "Voice error: ${'$'}e" }
+            onError = { e -> status.text = "Voice error: $e" }
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        voice.shutdown()
     }
 }
 
@@ -128,3 +134,4 @@ private fun ArFragment.setOnTapPlaneGlb(
             .exceptionally { throwable: Throwable -> onError(throwable.message ?: "Unknown error"); null }
     }
 }
+
