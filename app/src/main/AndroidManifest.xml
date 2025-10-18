@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HoloAI">
 
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
+
         <activity android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="locked">
@@ -27,4 +31,3 @@
     </application>
 
 </manifest>
-
