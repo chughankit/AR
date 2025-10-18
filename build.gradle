@@ -1,19 +1,6 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Modern Gradle (AGP 8+) — plugins are resolved via settings.gradle pluginManagement.
+// This file can stay minimal. No buildscript/classpath or repositories are needed here.
 
-buildscript {
-    dependencies {
-        classpath "com.android.tools.build:gradle:8.6.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
