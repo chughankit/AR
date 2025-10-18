@@ -56,7 +56,7 @@ dependencies {
 
     // Sceneform (community-maintained). Core + UX helpers
     implementation 'com.gorisse.thomas.sceneform:sceneform:1.23.0'
-    implementation 'com.gorisse.thomas.sceneform:sceneform-ux:1.23.0'
+    implementation 'com.gorisse.thomas.sceneform:ux:1.23.0'
 
     // Testing (optional placeholders)
     testImplementation 'junit:junit:4.13.2'
